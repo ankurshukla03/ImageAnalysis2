@@ -1,25 +1,31 @@
+clear all;
 van = imread('van.tif');
 van = uint8(van);
 % if ~exist('mfprev', 'var')
 %     mfprev=van;
 % end
 
-fsize = 5;
+fsize = 15; %large filter sizes!
 rows = 1;
 cols = 2;
 
-mf = fspecial('gaussian', [1 fsize], 1);
+mfx = fspecial('gaussian', [1 fsize], 1);
+mfy = mfx';
 mf3 = fspecial('gaussian', [fsize fsize], 1);
 
 % 'imfilter'
 tic;
-res1 = imfilter(van, mf3);
+for i=1:500
+res1 = conv2(mf3, van);
+end
 toc;
 
 % 'conv2'
 tic;
-res2 = conv2(mf, mf', van);
+for i=1:500
+res2 = conv2(mfx, mfy, van);
+end
 toc;
 
-subplot(rows, cols, 1), imagesc(res1);
-subplot(rows, cols, 2), imagesc(res2);
+%subplot(rows, cols, 1), imagesc(res1);
+%subplot(rows, cols, 2), imagesc(res2);
