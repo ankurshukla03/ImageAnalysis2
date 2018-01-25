@@ -1,0 +1,16 @@
+1. kernel size with respect to spread of noise.
+2. We don't save any time when using Conv2
+
+What does it mean to be separable??
+
+3. The greater the difference between filters...
+4. No, it's absolute difference
+5. Yes, there is an advantage because we just get the difference between two kernels and one convolution instead of running two convolutions and getting their difference.
+
+6. Median is good at condiment filtering because it takes the middle values in a kernel. It is not as great for gassuian noise for other reasons.
+
+7. creating 3d noise images?
+
+8. Any random image with noise?
+
+9
