@@ -6,7 +6,7 @@ g_img = imnoise(v_img, 'gaussian', 0, 0.00005);
 % median
 g_img_med  = ordfilt3D(g_img, 14);
 
-h = ones(3,3,3) / 9;
+h = ones(3,3,3) / 27;
 g_img_mean = imfilter(g_img, h);
 
 volrender(g_img);

@@ -9,8 +9,7 @@ What does it mean to be separable??
 
 6. Median is good at condiment filtering because it takes the middle values in a kernel. It is not as great for gassuian noise for other reasons.
 
-7. creating 3d noise images?
+7. Median filter for both works best.
 
-8. Any random image with noise?
+8. Works the same as the regular mean filter.
 
-9.
