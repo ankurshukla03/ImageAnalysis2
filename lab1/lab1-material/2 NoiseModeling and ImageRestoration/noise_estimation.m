@@ -1,6 +1,6 @@
 cm = imread('cameraman noise.tif');
 
-roi = roipoly(cm,[180 230],[20 130]);
+roi = roipoly(cm);
 
 %selecting region of interest by mouse 
 
