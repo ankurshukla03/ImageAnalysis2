@@ -9,10 +9,11 @@ What does it mean to be separable??
 
 6. Median is good at condiment filtering because it takes the middle values in a kernel. It is not as great for gassuian noise for other reasons.
 
-7. creating 3d noise images?
+7. Median filter for both works best.
 
-8. Any random image with noise?
+8. Works the same as the regular mean filter.
 
+<<<<<<< HEAD
 9.
 
 
@@ -29,3 +30,26 @@ better.
 15. Yes we compared and energy minimization approach outperform wiener filter with respect to PSNR and SISM value.
 
 16.Wiener filter is optimal with the gaussian filter not with the non linear system.
+=======
+...
+
+17. Phase domain template matching is faster because we're only need to compare over one dimension instead of two.
+
+18. Nailed it
+
+19. yes!
+
+20. No, this is not invariant to rotation.
+
+----
+
+21.
+
+22.
+
+23.
+
+24.
+
+25.
+>>>>>>> 9e052e8b3906351bcab7b56516a8402a7b090399
