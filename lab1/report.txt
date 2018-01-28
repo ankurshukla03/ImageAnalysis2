@@ -13,3 +13,24 @@ What does it mean to be separable??
 
 8. Works the same as the regular mean filter.
 
+...
+
+17. Phase domain template matching is faster because we're only need to compare over one dimension instead of two.
+
+18. Nailed it
+
+19. yes!
+
+20. No, this is not invariant to rotation.
+
+----
+
+21.
+
+22.
+
+23.
+
+24.
+
+25.
