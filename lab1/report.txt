@@ -14,3 +14,18 @@ What does it mean to be separable??
 8. Any random image with noise?
 
 9.
+
+
+11. mu(regularization weight) is use for removing noise upto a certain level, we should be careful for choosing the value of higher value of mu will
+not preserve the edges and low value of mu will not remove enough noises. No there wasn't much difference in value of PSNR and SSIM when we tried to tune it 
+better.
+
+
+12. No
+
+13.  
+
+14. Choosing NSFR value is the main obstacle for doing inverse filtering
+15. Yes we compared and energy minimization approach outperform wiener filter with respect to PSNR and SISM value.
+
+16.Wiener filter is optimal with the gaussian filter not with the non linear system.
