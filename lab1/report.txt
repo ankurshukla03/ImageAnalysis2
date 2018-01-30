@@ -25,11 +25,11 @@ What does it mean to be separable??
 
 ----
 
-21.
+21. An intensity change in the image.
 
-22.
+22. We found: edges = edge(img,'canny',[0.20 0.7], 1);
 
-23.
+23. A point in image space represents the center of a circle in parameter space. A circle in parameter space represents a point in image space.
 
 24.
 
