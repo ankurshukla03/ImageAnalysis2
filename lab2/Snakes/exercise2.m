@@ -4,29 +4,36 @@
 %  - Changing the parameters?
 
 % (C) Copyright 2011, Cris Luengo.
+close all;
 
-% Parameters
-alpha = 0.2; % membrane (length)
-beta = 0.4;  % thin plate (curvature)
+%% Parameters, original: 0.2, 0.4, 1, 0
+alpha = 0.8; % membrane (length)
+beta = 0.6;  % thin plate (curvature)
 gamma = 1;   % step size
-kappa = 0;   % balloon force
+kappa = 0.6; % balloon force
 
-% Read in the image
-a = imread('pears.png');
-a = rgb2gray(a);
-a = double(a);
+%% Read in the image
+orig_a = imread('pears.png');
+orig_a = rgb2gray(orig_a);
+orig_a = double(orig_a);
 
-% Edge image and external force
-e = gradmag(a,1);
-f = vfc(e,41,2);
+%% filter the image
+% copy orig_a to a
+a = imsharpen(orig_a);
+h = fspecial('average', 7);  
+a = imfilter(a, h, 'replicate'); % filter
 
-% Display images
+%% Edge image and external force
+e = gradmag(a,2); % orig: 2
+f = vfc(e,50,2); % orig: 41, 2
+ 
+%% Display images
 figure
 set(gcf,'position',[20,20,1000,700]);
 colormap(gray(256))
 
 subplot(2,2,1)
-image(a)
+image(orig_a)
 axis image
 title('input image')
 
@@ -47,7 +54,7 @@ axis image
 title('external force')
 
 subplot(2,2,3)
-image(a)
+image(orig_a)
 axis image
 title('evolving snake')
 hold on
