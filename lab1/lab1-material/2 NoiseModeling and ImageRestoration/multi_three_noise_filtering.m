@@ -1,4 +1,6 @@
-% close all;
+% questions 6 and 7
+
+close all;
 clear all;
 v_img = readVTK('hydrogen.vtk');
 

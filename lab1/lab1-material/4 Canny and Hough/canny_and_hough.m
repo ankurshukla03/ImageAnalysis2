@@ -1,12 +1,13 @@
+% questions 21-25
+
 close all;
 clear all;
 img = imread('coins.png');
 
-rows = 1;
-cols = 2;
-
 edges = edge(img,'canny',[0.20 0.7], 1);
-subplot(rows,cols,1), imshow(edges);
+
+figure(1);
+imshow(edges);
 
 rads=22:0.1:32;
 hough = zeros(size(img,1), size(img,2), length(rads));
@@ -39,7 +40,8 @@ end
 % we will see maxima at around 24 and 29.7 radii (indexes 41 and 97)
 [mm, idxs] = findpeaks(maxima, 'SortStr', 'descend', 'MinPeakWidth', 3);
 
-subplot(rows, cols, 2), imshow(img);
+figure(2);
+imshow(img);
 hold on
 for i=1:numel(idxs)
    idx = idxs(i);

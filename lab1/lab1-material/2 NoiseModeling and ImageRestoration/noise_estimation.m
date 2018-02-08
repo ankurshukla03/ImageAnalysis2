@@ -1,3 +1,4 @@
+% questions 11 - 16
 cm = imread('cameraman noise.tif');
 
 roi = roipoly(cm);
