@@ -88,7 +88,6 @@ while ~stop
     [best_score,dir]=min(scores);
     
     % Now see if we fulfil the stop criteria. Else continue
-    
     if best_score > last_score || dir == backwards
         stop = true;
         accumulated_scores(end+1) = best_score; %#ok
@@ -98,11 +97,6 @@ while ~stop
         last_score = best_score;
         accumulated_scores(end+1) = best_score; %#ok
     end
-    
-    figure(2)
-    imshow(edgeRGBoverlay(base,floating,'red'),[])
-    title(['Floating image position for iteration ' num2str(counter)])
-
     counter = counter + 1;
 end
 
