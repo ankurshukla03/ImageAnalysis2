@@ -1,10 +1,18 @@
-% questions 11 - 16
-cm = imread('cameraman noise.tif');
+cmn = imread('cameraman noise.tif');
+cm = imread('cameraman.png');
 
-roi = roipoly(cm);
+x = [7 20 55 75];
+y = [135 240 90 210];
+roi = roipoly(cm,x,y);
+
+noNoise = cm .* uint8(roi); 
+Noisy = cmn .* uint8(roi); 
+
+partlypsnr = psnr(Noisy,noNoise);
+fullpsnr = psnr(cmn, cm); 
 
 %
-histogram = histroi(roi,[180 230],[20 130]);
+histogram = histroi(cmn,x,y);
 
 %n=10 
-stats = statmoments(roi,10);
+stats = statmoments(histogram,10);
