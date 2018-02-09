@@ -1,12 +1,12 @@
 cmn = imread('cameraman noise.tif');
 cm = imread('cameraman.png');
 
-x = [137 210 245 175];
-y = [35 6 73 89];
-roi = roipoly(cm,x,y);
+x = [137 227 235 195];
+y = [25 16 63 59];
+roi = roipoly(cm);
 
 %
-histogram = histroi(cmn,x,y);
+%histogram = histroi(cm,[180 230],[20 130]);
 %histogram = histroi(cm,[180 230],[20 130]);
 %histogram = histroi(cm,[180 230],[20 130]);
 %histogram = histroi(cm,[180 230],[20 130]);
