@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 % DEMO - Chamfer matching
 % 
 % Written by: Patrik Malm 2011-11-17
