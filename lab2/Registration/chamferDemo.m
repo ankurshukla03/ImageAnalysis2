@@ -97,6 +97,11 @@ while ~stop
         last_score = best_score;
         accumulated_scores(end+1) = best_score; %#ok
     end
+    
+    figure(2)
+    imshow(edgeRGBoverlay(base,floating,'red'),[])
+    title(['Floating image position for iteration ' num2str(counter)])
+    
     counter = counter + 1;
 end
 
