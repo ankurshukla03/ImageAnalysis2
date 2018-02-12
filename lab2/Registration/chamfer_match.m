@@ -10,14 +10,15 @@ sigma = 0.8;
 base_edges = edge(base,'canny',[t1 t2],sigma);
 dist_base = bwdist(base_edges, 'euclidean');
 
-% img = edge(img, 'canny', [t1, t2], sigma);
+img = edge(img, 'canny', [t1, t2], sigma);
 
 %% pad images
 
 base      = padarray(base,size(base),0); % for overlay
-dist_base = padarray(dist_base,size(dist_base),5);
+dist_base = padarray(dist_base,size(dist_base),1);
 
 img = padarray(img,size(img),0);
+
 plain_img = padarray(plain_img,size(plain_img),0); % for overlay
 orig_img = img; % so repetitive rotation doesn't distort
 
@@ -25,11 +26,23 @@ orig_img = img; % so repetitive rotation doesn't distort
 assert(isequal(size(dist_base), size(img)));
 
 %% parameter initialization
-step = 4;
+step = 2;
+dirs = 4;
 translation_directions = [-0    -step; % up
                           -step  0   ; % left
                            0     step; % down 
                            step  0   ];% right
+        
+% dirs = 8;
+% translation_directions = [-0    -step; % up
+%                            step -step; % ne
+%                           -step  0   ; % left
+%                            step  step; % se
+%                            0     step; % down 
+%                            -step step; % sw
+%                            step  0   ; % right
+%                            -step -step]; % nw
+
 
 rotation_directions = -32:2:32; 
 
@@ -44,6 +57,11 @@ back_rot = 0;
 % last score
 last_tran = inf;
 last_rot = inf;
+
+% count repetitions
+rep_thresh = 20;
+tran_reps = 0; 
+rot_reps = 0;
 
 % For plotting reasons
 rot_scores = []; 
@@ -74,30 +92,37 @@ while ~stop_tran && ~stop_rot
     
     %% Get the best score, make the best transforms
     [best_tran,tran_ind] = min(tran_scores);
+    [best_rot,rot_ind] = min(rot_scores);
     
     % translation
-    if ~stop_tran && best_tran > last_tran+100 || tran_ind == back_tran
+    if ~stop_tran && best_tran > last_tran*1.05 || tran_ind == back_tran
         stop_tran = true;
         tran_scores(end+1) = best_tran; %#ok
-    else
+        % TODO
+        % maybe play with the step size here??
+%         elseif tran_ind == back_tran
+%             tran_rep = tran_rep + 1;
+    else       
         tran = tran + [translation_directions(tran_ind, 1) ...
-                       translation_directions(tran_ind, 2)];           
-        back_tran = mod(tran_ind+1,4)+1;
+                       translation_directions(tran_ind, 2)]; 
+        last_tran = best_tran;
+        back_tran = mod(tran_ind+1, dirs)+1;
         tran_scores(end+1) = best_tran; %#ok
     end
-    
     % rotation
-    [best_rot,rot_ind] = min(rot_scores);
     c_rot = rotation_directions(rot_ind);
-    if ~stop_rot && best_rot > last_rot+10 || c_rot == back_rot
-        stop_rot = true;
-        rot_scores(end+1) = best_rot; %#ok
-    else 
-        back_rot = -c_rot;
+%     if ~stop_rot && best_rot > last_rot*1.10 || (rot == back_rot && rot ~= 0)
+%         stop_rot = true;
+%         rot_scores(end+1) = best_rot; %#ok
+% %         elseif c_rot == back_rot
+% %             rot_reps = rot_reps + 1;
+%     else
         rot = rot + c_rot;
+        back_rot = -c_rot;
+        last_rot = best_rot;
         rot_scores(end+1) = best_rot; %#ok
-    end
-     
+%     end
+        
     % get the best quality rotated image for the next iteration.
     img = imrotate(orig_img, rot, 'nearest', 'crop');
     img = circshift(img, tran);
