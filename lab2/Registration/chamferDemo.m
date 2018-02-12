@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 % DEMO - Chamfer matching
 % 
 % Written by: Patrik Malm 2011-11-17
@@ -109,4 +110,3 @@ figure;
 plot(accumulated_scores,'r');
 title('Positional scores')
 ylabel('Scores')
-xlabel('Iterations')
