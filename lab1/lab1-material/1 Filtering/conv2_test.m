@@ -1,3 +1,5 @@
+% question 1 and 2
+
 clear all;
 van = imread('van.tif');
 van = uint8(van);
