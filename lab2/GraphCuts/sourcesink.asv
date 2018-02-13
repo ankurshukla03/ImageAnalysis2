@@ -31,8 +31,8 @@ function sourcesink()
     snkCords = [];
     k = 0;
     
-    %cords = [20,20,90,90];
-    cords = [10,10,20,20];
+    cords = [40,50,90,90];
+    %cords = [10,10,20,20];
     k = k+1;
     [idx,c] = addSrcSnk(im,idx,cords,k);
     cen = [cen; c];
