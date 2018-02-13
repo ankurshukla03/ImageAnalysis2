@@ -27,23 +27,7 @@ assert(isequal(size(dist_base), size(img)));
 
 %% parameter initialization
 step = 2;
-dirs = 4;
-translation_directions = [-0    -step; % up
-                          -step  0   ; % left
-                           0     step; % down 
-                           step  0   ];% right
-        
-% dirs = 8;
-% translation_directions = [-0    -step; % up
-%                            step -step; % ne
-%                           -step  0   ; % left
-%                            step  step; % se
-%                            0     step; % down 
-%                            -step step; % sw
-%                            step  0   ; % right
-%                            -step -step]; % nw
-
-
+translation_directions = directions(step);
 rotation_directions = -32:2:32; 
 
 %total transform and rotations
@@ -58,10 +42,10 @@ back_rot = 0;
 last_tran = inf;
 last_rot = inf;
 
-% count repetitions
-rep_thresh = 20;
-tran_reps = 0; 
-rot_reps = 0;
+% count repetitions, unused
+% rep_thresh = 20;
+% tran_reps = 0; 
+% rot_reps = 0;
 
 % For plotting reasons
 rot_scores = []; 
@@ -73,7 +57,9 @@ stop_tran = false;
 stop_rot = false;
 
 %% loop
-while ~stop_tran && ~stop_rot
+while ~stop_tran
+    translation_directions = directions(step);
+    dirs = size(translation_directions, 1);
     %% get scores for translation and rotations
     % to save scores
     tran_scores = zeros(size(translation_directions,1),1);
@@ -95,13 +81,9 @@ while ~stop_tran && ~stop_rot
     [best_rot,rot_ind] = min(rot_scores);
     
     % translation
-    if ~stop_tran && best_tran > last_tran*1.05 || tran_ind == back_tran
+    if ~stop_tran && last_tran ~= inf && best_tran / last_tran < 0.01
         stop_tran = true;
         tran_scores(end+1) = best_tran; %#ok
-        % TODO
-        % maybe play with the step size here??
-%         elseif tran_ind == back_tran
-%             tran_rep = tran_rep + 1;
     else       
         tran = tran + [translation_directions(tran_ind, 1) ...
                        translation_directions(tran_ind, 2)]; 
@@ -109,19 +91,23 @@ while ~stop_tran && ~stop_rot
         back_tran = mod(tran_ind+1, dirs)+1;
         tran_scores(end+1) = best_tran; %#ok
     end
+    
+    % get a new step
+    if last_tran ~= inf
+        step = ceil(10 * (last_tran / best_tran))
+    end
+    
     % rotation
     c_rot = rotation_directions(rot_ind);
-%     if ~stop_rot && best_rot > last_rot*1.10 || (rot == back_rot && rot ~= 0)
-%         stop_rot = true;
-%         rot_scores(end+1) = best_rot; %#ok
-% %         elseif c_rot == back_rot
-% %             rot_reps = rot_reps + 1;
-%     else
+    if ~stop_rot && best_rot / last_rot < 0.005 || (rot == back_rot && rot ~= 0)
+        stop_rot = true;
+        rot_scores(end+1) = best_rot; %#ok
+    else
         rot = rot + c_rot;
         back_rot = -c_rot;
         last_rot = best_rot;
         rot_scores(end+1) = best_rot; %#ok
-%     end
+    end
         
     % get the best quality rotated image for the next iteration.
     img = imrotate(orig_img, rot, 'nearest', 'crop');
@@ -138,4 +124,20 @@ while ~stop_tran && ~stop_rot
     counter = counter + 1;
 end
 
+end
+
+function directions = directions(step)
+    directions = [-0    -step; % up
+                  -step  0   ; % left
+                   0     step; % down 
+                   step  0  ];% right
+% 8 direction
+%     directions = [-0    -step; % north
+%                    step -step; % ne
+%                    step  0   ; % east
+%                    step  step; % se
+%                    0     step; % south 
+%                    -step step; % sw
+%                    -step  0  ; % west
+%                    -step -step]; % nw
 end
