@@ -108,6 +108,7 @@ while ~stop_tran
         rot_scores(end+1) = best_rot; %#ok
         % final rotation value.
         rot = rot + c_rot; 
+    % unless there is some better value after translation!
     elseif best_rot < last_rot
         rot = rot + c_rot;
         back_rot = -c_rot;

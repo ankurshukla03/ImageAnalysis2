@@ -27,9 +27,10 @@ hold on
 plot(B_tran_scores,'g');
 plot(B_rot_scores,'r');
 hold off
-title('Position(g)/Rotation(r) scores')
+title('Position and Rotation scores')
 ylabel('Scores')
 xlabel('Iterations')
+legend('Position', 'Rotation')
 
 b_tran
 b_rot
