@@ -31,22 +31,22 @@ function sourcesink()
     snkCords = [];
     k = 0;
     
-    %cords = [20,20,90,90];
-    cords = [10,10,20,20];
+    cords = [17,1220,599,1920];
+    %cords = [10,10,20,20];
     k = k+1;
     [idx,c] = addSrcSnk(im,idx,cords,k);
     cen = [cen; c];
     snkCords = [snkCords;cords];
     
     
-    %cords = [80,60,100,140];
-    cords = [60,30,70,110];
+    cords = [399, 898, 699, 1156];
+    %cords = [60630,70,110];
     k = k+1;
     [idx,c] = addSrcSnk(im,idx,cords,k);
     cen = [cen; c];
     srcCords = [srcCords;cords];
-    scsnk_wgt = 10;
-    edges_wgt=5;
+    scsnk_wgt = 85;
+    edges_wgt=6;
     
     % calculate the data cost per cluster center
     Dc = zeros([sz(1:2) k],'single');
@@ -85,7 +85,7 @@ function sourcesink()
     end
     
     imwrite(segImg,'bOut.png');
-    imtool(segImg);
+    imshow(segImg);
     disp('Done');
 end
 
