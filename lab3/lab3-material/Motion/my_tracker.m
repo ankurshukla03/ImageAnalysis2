@@ -15,11 +15,14 @@ open(output);
 height = size(mov,1);
 width = size(mov,2);
 
-colors = ["red", "green", "blue", "yellow"];
+colors = ["red", "green", "blue", "yellow", "magenta", "cyan"];
 
 %% processing
-% we'll be writing to this.
 progressbar('frame');
+% keep track of previous colors and the previous points
+prev_points = inf(5,2);
+next_points = prev_points;
+prev_colors = strings(5,1);
 for i=start_f:end_f
     % store current frame
     
@@ -42,11 +45,27 @@ for i=start_f:end_f
         if props(el).Area > 90
             continue;
         end
+        % init prev points
         x = props(el).Centroid(1);
         y = props(el).Centroid(2);
+        cur = [x,y];
+        if all(prev_points(el,:) == Inf)
+            next_points(el,:) = cur;
+            c_color = colors(el);
+            prev_colors(el) = c_color;
+        else 
+            dist = sqrt(...
+                (prev_points(:,1)-cur(:,1)).^2 + ...
+                (prev_points(:,2)-cur(:,2)).^2);
+            [~, ind] = min(dist);
+            c_color = prev_colors(ind);
+            next_points(ind,:) = cur;
+        end
         line(x,y,'marker','o','markersize',10,'LineWidth',2,...
-            'Color', colors(el));
+            'Color', c_color);
     end
+    prev_points = next_points;
+    next_points = inf(5,2);
     F = getframe(fig);
     writeVideo(output,F);
     progressbar(i/(end_f - start_f));
