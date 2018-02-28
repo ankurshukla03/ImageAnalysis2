@@ -1,8 +1,8 @@
 close all;
 
 %% open video files
-start_f = 250;
-end_f = 400;
+start_f = 1;
+end_f = 250;
 assert(start_f < end_f);
 mov = read_movie('source_sequence.avi', start_f, end_f);
 mask = imread('bwmask.png');
@@ -36,16 +36,13 @@ for i=1:(end_f-start_f)
 
     Lb_Img = bwlabel(c_x);
     Comps = bwconncomp(Lb_Img);
-    props = regionprops(Comps,'Area','centroid');
+    props = regionprops(Comps,'centroid');
 
     % for each prop draw a circle
     fig = figure(10);
     imh = imshow(frame);
     hold on;
     for el=1:numel(props)
-        if props(el).Area > 90 % skip background object.
-            continue;
-        end
         % init prev points
         x = props(el).Centroid(1);
         y = props(el).Centroid(2);
