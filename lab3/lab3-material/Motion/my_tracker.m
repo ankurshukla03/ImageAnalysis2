@@ -2,8 +2,8 @@ close all;
 
 %% open video files
 % read 250 of 581
-start_f = 250;
-end_f = 350;
+start_f = 1;
+end_f = 250;
 assert(start_f < end_f);
 mov = read_movie('source_sequence.avi', start_f, end_f);
 mask = imread('bwmask.png');
@@ -25,12 +25,13 @@ for i=1:(end_f-start_f)
     % store current frame
     
     frame = mov(:,:,i);
+    frame = frame + mask;
     % smooth frame
-    %h = fspecial('average', 5);
-    %c_x = imfilter(frame, h);
+    h = fspecial('average', 5);
+    c_x = imfilter(frame, h);
     % binarize on some intensity
     c_x = c_x < 110; 
-    frame = frame + mask;
+   
 
     Lb_Img = bwlabel(c_x);
     Comps = bwconncomp(Lb_Img);
